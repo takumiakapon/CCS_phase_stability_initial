@@ -77,7 +77,7 @@ program main
     z0(10)=4.23d0*10.0d0**(-6.0d0)!1.1030901971414173E-005!1.0092765812147074E-005!1E-5 !Mg2+
     z0(11)=1.0d0-z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
     
-    !!ケースこれ
+    !!学部ケースこれ
     !z0=0.0d0
     !z0(1)=0.990029871
     !z0(2)=1.68415E-05
@@ -89,6 +89,18 @@ program main
     !z0(8)=1.86134E-08
     !z0(10)=9.13985E-06
     !z0(11)=1.0d0-z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
+
+    !?相安定性解析ケース
+    z0=0.0d0
+    z0(1) = 0.999d0 !H2O
+    z0(2) = 2.38d-7 !CO2
+    z0(5) = 6.68d-11 !H+
+    z0(6) = 1.79d-5 !HCO3-
+    z0(7) = 2.79d-7 !CO32-
+    z0(8) = 2.68d-7 !OH-
+    z0(10) = 4.3d-6 !Mg2+
+    z0(11) = 1.0d0 -z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
+
     
     
     !相安定解析の主要変数の初期値
@@ -235,7 +247,7 @@ program main
         end do
     end if
     deallocate(cmat,dmat)
-    !lnk1=lnk0(1) !chemicalの前に謎にlnkの値が0になるバグが10回に1回くらいおこるので、一旦保存して、あとで　代入する。まじでなぞ
+    !lnk1=lnk0(1) !chemicalの前に謎にlnkの値が0になるバグが10回に1回くらいおこるので、一旦保存して、あとで代入する。まじでなぞ
     !lnk2=lnk0(2)
     !lnk3=lnk0(3)
     !lnk4=lnk0(4)
@@ -269,12 +281,13 @@ program main
     !lnk0(4)=lnk4
     
     !write(*,*) Nc0
-    
+    !write(*,*) Nc0(10)
     !液相がある場合、電離
     if (phase_judge0 == 2 .or. phase0 == 1) then
         allocate(emat(eq,eq),fmat(eq))
-        do time =1,100!00 !time iteration
+        do time =1,10000!00 !time iteration
             !write(11,*) 'day',time
+            
             do iteration =1,100
                 !write(11,*) iteration
                 call ini_chemi(P0,P0old,Nc0,Nc0old,Nm0,Nm0old,lnk0,V0,Sw0,fai0,chemi_mat,phase_judge0,z0,theta0,z_factor0,fxs)
@@ -360,6 +373,8 @@ program main
             if (iteration == 100) then
                 write(*,*) '収束せず'
             end if
+
+            
             
         end do
         deallocate(emat,fmat)

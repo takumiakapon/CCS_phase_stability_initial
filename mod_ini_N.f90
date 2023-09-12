@@ -86,7 +86,7 @@ module mod_ini_N
         real(8),dimension(com_2phase+com_ion)::v_L
         
         L0 = 1.0d0 - V0
-        
+        !write(*,*) z0
         
         !!液相について
         A_rc=5.916365d0-0.01035794d0*temp+0.9270048d0*(10.0d0**(-5.0d0))*(temp**2.0d0)-1127.522d0/temp+100674.1d0/(temp**2.0d0)!!
@@ -103,19 +103,22 @@ module mod_ini_N
         end do
         
         
-        
+        y0(:) = 0.0d0
         MV_L = 0.0d0
         do i=1,com_2phase +com_ion
             MV_L = MV_L +z0(i) *v_L(i)
         end do
         MD_L = 1.0d0/MV_L
+        do i=1,com_2phase+com_ion
+            x0(i)=z0(i)
+        end do
         
-        x0=z0
-        y0 = 0.0d0
         !!モル数--------
         Nt=1.0d0/(L0*MV_L)
+        
         do i=1,com_2phase+com_ion
             Nc0(i)=Nt*x0(i)
+            !write(*,*) Nt,x0(i),Nc0(i)
         end do
         
         !!飽和率-------
