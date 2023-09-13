@@ -46,8 +46,8 @@ program main
     
     
     !平衡定数の初期予測
-    lnk0(1) = -5.0d0
-    lnk0(2) = 3.0d0
+    lnk0(1) = -6.6318705003566869!-5.0d0
+    lnk0(2) = 3.4598654370079327  !3.0d0
     lnk0(3) = 5.0d0
     lnk0(4) = 3.0d0
     k0(1) = exp(lnk0(1))!1.0d0/Pc(1)*exp(5.37*(1.0d0+acentric(1)*(1.0d0-1.0d0/tc(1))))!exp(lnk0(1))!=1.0d0/pr(i)*exp(5.37*(1.0d0+omega(i)*(1.0d0-1.0d0/tr(i)))
@@ -101,8 +101,10 @@ program main
     z0(10) = 4.3d-6 !Mg2+
     z0(11) = 1.0d0 -z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
 
-    !z0(1)=0.915
-    !z0(2)=1.0d0-z0(1)
+    !z0=0.0d0
+     
+    !z0(2)=4.6029673472613991E-004!1.0d0-z0(1)
+    !z0(1)=1.0d0-z0(2)
     !chemi_mat(:,:) = 0
     
     !相安定解析の主要変数の初期値
@@ -207,7 +209,7 @@ program main
         end if
     end if
     deallocate(amat,bmat)
-    !write(*,*) lnk0,lumda,v0
+    write(*,*) lnk0,lumda
     do i=1,com_2phase
     !    write(*,*) z0(i)
     end do
@@ -287,7 +289,7 @@ program main
     !液相がある場合、電離
     if (phase_judge0 == 2 .or. phase0 == 1) then
         allocate(emat(eq,eq),fmat(eq))
-        do time =1,10000!00 !time iteration
+        do time =1,100!00!00 !time iteration
             !write(11,*) 'day',time
             
             do iteration =1,100
@@ -383,7 +385,7 @@ program main
     end if
     
     
-    write(*,*) Nc0
+    !write(*,*) Nc0
     write(14,*) phase_judge0,'phases'
     write(14,*) P0,'pressure'
     write(14,*) 'z_factor:',z_factor0
@@ -415,5 +417,6 @@ program main
     write(11,*) phase_judge0
     write(11,*) phase0
 
+    
 
 endprogram

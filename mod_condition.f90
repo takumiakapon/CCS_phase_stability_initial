@@ -11,7 +11,7 @@ module mod_condition
     real(8),parameter::temp_C=50.0d0
 
     !初期圧力
-    real(8),parameter::iniPressure=10.0d0*10.0d0**6.0d0 ![MPa→Pa]23303584.504465967!
+    real(8),parameter::iniPressure=10.0d0*10.0d0**6.0d0 ![MPa→Pa]10442965.098032666!
     
     !円周率
     real(8),parameter::pi=4.0d0*atan(1.0d0)
