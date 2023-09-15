@@ -103,8 +103,8 @@ module mod_fugacity
                 !write(*,*) kaku
             end do
         !    write(*,*) 's'
-            E_V(j)=(A_V/(2.0d0*sqrt(2.0d0)*B_V))*((2.0d0/a_mix_V)*sigma-b(j)/b_mix_V)!?ここ？2成分目が計算できていない？
-            !#TODOよくわからないからサブルーチンじゃなくて普通に書く？
+            E_V(j)=(A_V/(2.0d0*sqrt(2.0d0)*B_V))*((2.0d0/a_mix_V)*sigma-b(j)/b_mix_V)
+            
         !    write(*,*) 'n'
             call outxs(E_V,kakuninn)
         !    write(*,*) kakuninn

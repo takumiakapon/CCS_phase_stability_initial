@@ -46,7 +46,7 @@ module mod_phase_stability_analysis
         end do
         
         
-        call outxs(w,kakuninn)
+        !call outxs(w,kakuninn)
         !write(*,*) kakuninn
         !!気相のモル分率
         call residualvectorset3(com_2phase,wt)
@@ -68,7 +68,7 @@ module mod_phase_stability_analysis
         
         call liquid_fugacity(lnfai_L,P0)
         call outxs(lnfai_V,kakuninn)
-        !write(*,*) kakuninn
+        write(*,*) kakuninn
         
         
         

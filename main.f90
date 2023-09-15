@@ -46,8 +46,8 @@ program main
     
     
     !平衡定数の初期予測
-    lnk0(1) = -6.6318705003566869!-5.0d0
-    lnk0(2) = 3.4598654370079327  !3.0d0
+    lnk0(1) = -5.0d0!-6.6318705003566869!
+    lnk0(2) = 3.0d0!3.4598654370079327  !
     lnk0(3) = 5.0d0
     lnk0(4) = 3.0d0
     k0(1) = exp(lnk0(1))!1.0d0/Pc(1)*exp(5.37*(1.0d0+acentric(1)*(1.0d0-1.0d0/tc(1))))!exp(lnk0(1))!=1.0d0/pr(i)*exp(5.37*(1.0d0+omega(i)*(1.0d0-1.0d0/tr(i)))
@@ -101,11 +101,11 @@ program main
     z0(10) = 4.3d-6 !Mg2+
     z0(11) = 1.0d0 -z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
 
-    !z0=0.0d0
+    z0=0.0d0
      
-    !z0(2)=4.6029673472613991E-004!1.0d0-z0(1)
-    !z0(1)=1.0d0-z0(2)
-    !chemi_mat(:,:) = 0
+    z0(2)=0.00006!5.0871837418437155E-004!1.0d0-z0(1)
+    z0(1)=1.0d0-z0(2)
+    chemi_mat(:,:) = 0
     
     !相安定解析の主要変数の初期値
     if (z0(1) >= z0(2)+z0(3)+z0(4)) then !液相から気相が出てくるパターン
@@ -118,11 +118,11 @@ program main
         end do
     end if
     V0 = 1.0d0 - z0(1)
-    L0 = 1.0d0 -V0
+    L0 = 1.0d0 - V0
     do i=1,com_2phase
         alpha0(i) = 2.0d0 *sqrt(w0(i))
     end do
-    
+    !write(*,*) w0
     !write(*,*) lnk0
     
     
@@ -156,7 +156,7 @@ program main
         
         error = sqrt(dot_product(bmat,bmat))
         !write(*,*) error,iteration
-        if (error < 10.0d0**(-5.0d0)) then
+        if (error < 10.0d0**(-10.0d0)) then
             exit
         end if
     end do
@@ -209,11 +209,11 @@ program main
         end if
     end if
     deallocate(amat,bmat)
-    write(*,*) lnk0,lumda
+    !write(*,*) lnk0,lumda
     do i=1,com_2phase
     !    write(*,*) z0(i)
     end do
-    !write(*,*) phase_judge0,'phase'
+    write(*,*) phase_judge0,'phase'
     
     
     allocate(cmat(com_2phase+1,com_2phase+1),dmat(com_2phase+1))
