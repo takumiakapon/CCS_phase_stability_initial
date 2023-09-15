@@ -26,6 +26,7 @@ program main
     real(8)::Nt,Sw0,lnk1,lnk2,lnk3,lnk4
     real(8),allocatable,dimension(:,:)::chemi_mat
 
+    real(8)::Tc(com_2phase),Pc(com_2phase),acentric(com_2phase),bic(com_2phase,com_2phase)
 
     call file_open
 
@@ -43,18 +44,51 @@ program main
     
     
     P0 =iniPressure
+
+    Tc(1) = 647.30d0
+        Tc(2) = 304.2d0
+        Tc(3) = 190.6d0
+        Tc(4) = 373.2d0
+        Pc(1) = 217.6d0 * 101325.d0
+        Pc(2) = 72.8d0 * 101325.d0
+        Pc(3) = 45.4d0 * 101325.d0
+        Pc(4) = 88.2d0 * 101325.d0
+        acentric(1) = 0.344d0
+        acentric(2) = 0.225d0
+        acentric(3) = 0.008d0
+        acentric(4) = 0.1d0
+        bic(1,1)=0.0d0
+        bic(1,2)=0.2d0
+        bic(1,3)=0.4907d0
+        bic(1,4)=0.12d0
+        bic(2,1)=bic(1,2)
+        bic(2,2)=0.0d0
+        bic(2,3)=0.105d0
+        bic(2,4)=0.135d0
+        bic(3,1)=bic(1,3)
+        bic(3,2)=bic(2,3)
+        bic(3,3)=0.0d0
+        bic(3,4)=0.07d0
+        bic(4,1)=bic(1,4)
+        bic(4,2)=bic(2,4)
+        bic(4,3)=bic(3,4)
+        bic(4,4)=0.0d0
     
     
     !平衡定数の初期予測
-    lnk0(1) = -5.0d0!-6.6318705003566869!
-    lnk0(2) = 3.0d0!3.4598654370079327  !
+    lnk0(1) = -6.6318705003566869!-5.0d0!
+    lnk0(2) = 3.4598654370079327  !3.0d0!
     lnk0(3) = 5.0d0
     lnk0(4) = 3.0d0
     k0(1) = exp(lnk0(1))!1.0d0/Pc(1)*exp(5.37*(1.0d0+acentric(1)*(1.0d0-1.0d0/tc(1))))!exp(lnk0(1))!=1.0d0/pr(i)*exp(5.37*(1.0d0+omega(i)*(1.0d0-1.0d0/tr(i)))
     k0(2) = exp(lnk0(2))!1.0d0/Pc(2)*exp(5.37*(1.0d0+acentric(2)*(1.0d0-1.0d0/tc(2))))!exp(lnk0(2))
     k0(3) = exp(lnk0(3))
     k0(4) = exp(lnk0(4))
-    
+    !write(*,*) k0
+    do i=1,com_2phase
+        !k0(i)=Pc(i)/P0*exp(5.37*(1.0d0+acentric(i)*(1.0d0-tc(i)/temp)))
+    end do
+    !write(*,*) k0
     
     !初期の全モル分率
     !z0(1) = 0.95d0 !H2O
@@ -103,7 +137,7 @@ program main
 
     z0=0.0d0
      
-    z0(2)=0.00006!5.0871837418437155E-004!1.0d0-z0(1)
+    z0(2)=0.0004!5.0871837418437155E-004!1.0d0-z0(1)
     z0(1)=1.0d0-z0(2)
     chemi_mat(:,:) = 0
     
@@ -159,6 +193,7 @@ program main
         if (error < 10.0d0**(-10.0d0)) then
             exit
         end if
+        !write(*,*) alpha0(1)
     end do
     
     

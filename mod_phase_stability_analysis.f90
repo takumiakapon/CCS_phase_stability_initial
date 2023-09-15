@@ -58,6 +58,8 @@ module mod_phase_stability_analysis
         do i=1,com_2phase
             y(i) = w(i) /wt
         end do
+        call outxs(y,kakuninn)
+        !write(*,*) kakuninn
         
         !!液相のモル分率
         do i=1,com_2phase
@@ -68,8 +70,8 @@ module mod_phase_stability_analysis
         
         call liquid_fugacity(lnfai_L,P0)
         call outxs(lnfai_V,kakuninn)
-        write(*,*) kakuninn
-        
+        !write(*,*) kakuninn(2)
+        write(*,*) alpha0(2)
         
         
         do i=1,com_2phase
