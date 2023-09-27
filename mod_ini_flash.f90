@@ -50,6 +50,7 @@ module mod_ini_flash
         !write(*,*) kakuninn
         
         
+        
         !!rachford-rice
         do i=1,com_2phase+com_ion
             call residualvectorset4(z0(i),com_2phase+1,z(i))
