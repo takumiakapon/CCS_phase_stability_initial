@@ -135,7 +135,7 @@ program main
     z0(10) = 4.3d-6 !Mg2+
     z0(11) = 1.0d0 -z0(1)-z0(2)-z0(3)-z0(5)-z0(6)-z0(7)-z0(8)-z0(10) !SiO2
 
-    z0=0.0d0
+    !z0=0.0d0
      
     !z0(2)=0.0004!5.0871837418437155E-004!1.0d0-z0(1)
     !z0(1)=1.0d0-z0(2)
@@ -451,6 +451,25 @@ program main
     write(11,*) P0
     write(11,*) phase_judge0
     write(11,*) phase0
+
+    write(*,*) phase_judge0,'phases'
+    write(*,*) P0,'pressure'
+    write(*,*) 'z_factor:',z_factor0
+    write(*,*) 'V0',V0,'Sw',Sw0
+    write(*,*) 'Nc','z'
+    do i=1,com_2phase+com_ion
+        write(*,*) Nc0(i),z0(i)
+    end do
+    do i=1,com_mine
+        write(*,*) Nm0(i)
+    end do
+    write(*,*) 'theta'
+    do i=1,chemi+mine
+        write(*,*) theta0(i)
+    end do
+    do j=1,com_2phase
+        write(*,*) lnk0(j)
+    end do
 
     
 
